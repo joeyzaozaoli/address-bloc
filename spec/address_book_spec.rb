@@ -1,6 +1,6 @@
 require_relative '../models/address_book'
 
- RSpec.describe AddressBook do
+RSpec.describe AddressBook do
   let(:book) { AddressBook.new }
   def check_entry(entry, expected_name, expected_number, expected_email)
     expect(entry.name).to eq expected_name
@@ -121,6 +121,15 @@ require_relative '../models/address_book'
       book.import_from_csv("entries.csv")
       entry = book.binary_search("Billy")
       expect(entry).to be_nil
+    end
+  end
+
+  describe "#delete_all_entries" do
+    it "deletes all entries from the address book" do
+      book.add_entry('Ada Lovelace', '010.012.1815', 'augusta.king@lovelace.com')
+      book.add_entry('Joey Li', '415.012.1815', 'joey.li@bloc.io')
+      book.delete_all_entries
+      expect(book.entries.size).to eq(0)
     end
   end
 end
